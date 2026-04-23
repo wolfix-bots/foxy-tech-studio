@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
       // Auto-inject apikey=gifted for apiskeith.top endpoints
       if (url.hostname === 'apiskeith.top') {
-        url.searchParams.set('apikey', 'gifted');
+        url.searchParams.set('gifted');
       }
 
       // Add user params
