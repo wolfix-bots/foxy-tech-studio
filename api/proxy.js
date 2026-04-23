@@ -6,19 +6,17 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'POST') {
-      const { endpoint, params, extraParams } = req.body;
+      const { endpoint, params } = req.body;
       if (!endpoint) return res.status(400).json({ error: 'Endpoint is required' });
 
       const url = new URL(endpoint);
 
-      // Add extraParams first (e.g. apikey=keith)
-      if (extraParams) {
-        Object.entries(extraParams).forEach(([k, v]) => {
-          url.searchParams.set(k, String(v));
-        });
+      // Auto-inject apikey=gifted for apiskeith.top endpoints
+      if (url.hostname === 'apiskeith.top') {
+        url.searchParams.set('apikey', 'gifted');
       }
 
-      // Then add user params
+      // Add user params
       if (params) {
         Object.entries(params).forEach(([k, v]) => {
           if (v !== undefined && v !== null && v !== '') {
